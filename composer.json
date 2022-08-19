@@ -1,0 +1,21 @@
+{
+  "name": "vendor_name/cloud",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "1111",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "api\\src\\": "src/"
+    }
+  }
+}
