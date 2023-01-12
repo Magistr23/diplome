@@ -20,6 +20,17 @@ class User
         $this->conn = $db;
     }
 
+    /*public function ReadAdmin()
+    {
+        $query = "SELECT * FROM " . $this->table_name;
+
+        $stml = $this->conn->prepare($query);
+
+        $stml->execute();
+
+        return $stml;
+    }*/
+
     public function Read()
     {
         $query = "SELECT * FROM " . $this->table_name;
@@ -75,25 +86,54 @@ class User
         return false;
     }
 
-    public function ReadOne()
+    public function ReadOne($id)
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE id=:id LIMIT 1";
 
         $stml = $this->conn->prepare($query);
 
-        $stml->bindParam(":id", $this->id);
+        $stml->bindParam(":id", $id);
 
         $stml->execute();
 
-        $row = $stml->fetchAll(\PDO::FETCH_ASSOC);
+        return $stml;
+        
+//         $row = $stml->fetchAll(PDO::FETCH_ASSOC);
+// //var_dump($row);
+//         $this->id = $row[0]['id'];
+//         $this->login = $row[0]['login'];
+//         $this->password = $row[0]['password'];
+//         $this->email = $row[0]['email'];
+        // print_r($this->email);
+    //     if ($row = $stml->fetchAll(PDO::FETCH_ASSOC)) {
+    //         print_r($row);
+    //         print_r($row[0]['login']);
+    //         $user_arr = [];
+    //         $user_arr["user"] = [];
+    //             extract($row);
 
-        $this->id = $row['id'];
-        $this->login = $row['login'];
-        $this->password = $row['password'];
-        $this->email = $row['email'];
+    //             $user_item = [
+    //                 "id" => $id,
+    //                 "login" => $login,
+    //                 "password" => $password,
+    //                 "email" => $email,
+    //                 "role" => $role
+    //             ];
+
+    //             $user_arr["user"][] = $user_item;
+
+    //         http_response_code(200);
+    //         echo json_encode($user_item);
+
+    // } else {
+    //     http_response_code(404);
+
+    //     echo json_encode(array("massage" => 'Никого тут нет :з'), JSON_UNESCAPED_UNICODE);
+    // }
+
     }
 
-    public function Delete()
+    public function Delete($id)
     {
         $query = "DELETE FROM " . $this->table_name . " WHERE id=:?";
 
