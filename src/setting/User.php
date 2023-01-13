@@ -42,22 +42,27 @@ class User
         return $stml;
     }
 
-    public function Create()
+    public function Create($login, $password, $email)
     {
         $query = "INSERT INTO " . $this->table_name . " SET login=:login, password=:password, email=:email";
 
         $stml = $this->conn->prepare($query);
 
-        $this->login = htmlspecialchars(strip_tags($this->login));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->login = htmlspecialchars(strip_tags($login));
+        $this->password = htmlspecialchars(strip_tags($password));
+        $this->email = htmlspecialchars(strip_tags($email));
 
         $stml->bindParam(":login", $this->login);
         $stml->bindParam(":password", $this->password);
         $stml->bindParam(":email", $this->email);
 
         if ($stml->execute()) {
-            return true;
+            http_response_code(201);
+            echo 'Персонаж добавлен';
+        } else {
+            http_response_code(404);
+
+            echo json_encode(array("massage" => 'Не получилось добавить человека :з'), JSON_UNESCAPED_UNICODE);
         }
 
         return false;
@@ -98,44 +103,11 @@ class User
 
         return $stml;
         
-//         $row = $stml->fetchAll(PDO::FETCH_ASSOC);
-// //var_dump($row);
-//         $this->id = $row[0]['id'];
-//         $this->login = $row[0]['login'];
-//         $this->password = $row[0]['password'];
-//         $this->email = $row[0]['email'];
-        // print_r($this->email);
-    //     if ($row = $stml->fetchAll(PDO::FETCH_ASSOC)) {
-    //         print_r($row);
-    //         print_r($row[0]['login']);
-    //         $user_arr = [];
-    //         $user_arr["user"] = [];
-    //             extract($row);
-
-    //             $user_item = [
-    //                 "id" => $id,
-    //                 "login" => $login,
-    //                 "password" => $password,
-    //                 "email" => $email,
-    //                 "role" => $role
-    //             ];
-
-    //             $user_arr["user"][] = $user_item;
-
-    //         http_response_code(200);
-    //         echo json_encode($user_item);
-
-    // } else {
-    //     http_response_code(404);
-
-    //     echo json_encode(array("massage" => 'Никого тут нет :з'), JSON_UNESCAPED_UNICODE);
-    // }
-
     }
 
     public function Delete($id)
     {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id=:?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id=:id";
 
         $stml = $this->conn->prepare($query);
 

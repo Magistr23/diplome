@@ -26,7 +26,7 @@ function getUrlQuery($url, $key = null)
 
 // Все GET-параметры
 $data = getUrlQuery($urll);
-// var_dump($data);
+//var_dump($data);
 
 if($parts_url[0] === '/user') {
 	if($_SERVER["REQUEST_METHOD"] === "GET") {
@@ -36,6 +36,20 @@ if($parts_url[0] === '/user') {
 			(new \api\src\controller\ReadController())->Read($params);
 		} else {
 			(new \api\src\controller\UserController())->User();
+		}
+	} elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
+		if ($data) {
+			if (isset($data['login']) && isset($data['pass']) && isset($data['email'])) {
+				$params_login = $data['login'];
+				$params_pass = $data['pass'];
+				$params_email = $data['email'];
+				(new \api\src\controller\CreateController())->Create($params_login, $params_pass, $params_email);
+			} else {
+				echo 'Увы но вы не заполенели не все данные для добавления человека';
+			}
+
+		} else {
+			echo 'Увы но вы не заполенели данные для добавления человека';
 		}
 	}
 }
