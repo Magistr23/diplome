@@ -51,6 +51,17 @@ if($parts_url[0] === '/user') {
 		} else {
 			echo 'Увы но вы не заполенели данные для добавления человека';
 		}
+	} elseif ($_SERVER["REQUEST_METHOD"] === "DELETE") {
+		if ($data) {
+			if ($data['id'] && is_numeric($data['id'])) {
+				$params_id = $data['id'];
+				(new \api\src\controller\DeleteController())->Delete($params_id);
+			} else {
+				echo "id записан не правильно";
+			}
+		} else {
+			echo "id не записан";
+		}
 	}
 }
  

@@ -105,18 +105,24 @@ class User
         
     }
 
-    public function Delete($id)
+    public function Delete($params_id)
     {
         $query = "DELETE FROM " . $this->table_name . " WHERE id=:id";
 
         $stml = $this->conn->prepare($query);
 
-        $stml->id = htmlspecialchars(strip_tags($this->id));
+        $this->id = htmlspecialchars(strip_tags($params_id));
 
-        $stml->bindParam(1, $this->id);
+        $stml->bindParam(":id", $this->id);
 
         if ($stml->execute()) {
-            return true;
+            http_response_code(204);
+
+            echo json_encode(array("message" => "Человек был удалён."), JSON_UNESCAPED_UNICODE);
+        } else {
+            http_response_code(503);
+
+            echo json_encode(array("message" => "Не удалось удалить человека."));
         }
         return false;
     }
