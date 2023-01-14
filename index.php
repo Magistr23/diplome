@@ -57,7 +57,7 @@ if($parts_url[0] === '/user') {
 				$params_id = $data['id'];
 				(new \api\src\controller\DeleteController())->Delete($params_id);
 			} else {
-				echo "id записан не правильно";
+				echo "id должен быть числовой";
 			}
 		} else {
 			echo "id не записан";
