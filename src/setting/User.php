@@ -57,27 +57,21 @@ class User
         $stml->bindParam(":email", $this->email);
 
         if ($stml->execute()) {
-            http_response_code(201);
-            echo 'Персонаж добавлен';
-        } else {
-            http_response_code(404);
-
-            echo json_encode(array("massage" => 'Не получилось добавить человека :з'), JSON_UNESCAPED_UNICODE);
+            return true;
         }
-
         return false;
     }
 
-    public function UpDate()
+    public function UpDate($params_login, $params_pass, $params_email, $params_id)
     {
         $query = "UPDATE " . $this->table_name . " SET login=:login, password=:password, email=:email WHERE id=:id";
 
         $stml = $this->conn->prepare($query);
 
-        $this->login = htmlspecialchars(strip_tags($this->login));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->login = htmlspecialchars(strip_tags($params_login));
+        $this->password = htmlspecialchars(strip_tags($params_pass));
+        $this->email = htmlspecialchars(strip_tags($params_email));
+        $this->id = htmlspecialchars(strip_tags($params_id));
 
         $stml->bindParam(":login", $this->login);
         $stml->bindParam(":password", $this->password);
@@ -116,13 +110,8 @@ class User
         $stml->bindParam(":id", $this->id);
 
         if ($stml->execute()) {
-            http_response_code(204);
-
-            echo json_encode(array("message" => "Человек был удалён."), JSON_UNESCAPED_UNICODE);
-        } else {
-            http_response_code(503);
-
-            echo json_encode(array("message" => "Не удалось удалить человека."));
+            
+            return true;
         }
         return false;
     }

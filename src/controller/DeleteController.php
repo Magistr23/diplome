@@ -19,6 +19,15 @@ class DeleteController
         // $data = json_decode(file_get_contents("php://input"));
 
         // $user->id = $data->id;
-        $stml = $user->Delete($params_id);
+
+        if ($user->Delete($params_id)) {
+            http_response_code(204);
+
+            echo json_encode(array("message" => "Человек был удалён."), JSON_UNESCAPED_UNICODE);
+        } else {
+            http_response_code(503);
+
+            echo json_encode(array("message" => "Не удалось удалить человека."));
+        }
     }
 }

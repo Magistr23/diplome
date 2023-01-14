@@ -17,6 +17,15 @@ class CreateController
 
         $user = new User($db);
 
-        $stml = $user->Create($params_login, $params_pass, $params_email);
+        if ($user->Create($params_login, $params_pass, $params_email)) {
+            http_response_code(201);
+
+            echo json_encode(array("massage" => 'Персонаж добавлен :з'), JSON_UNESCAPED_UNICODE);
+            
+        } else {
+            http_response_code(404);
+
+            echo json_encode(array("massage" => 'Не получилось добавить человека :з'), JSON_UNESCAPED_UNICODE);
+        }
     }
 }

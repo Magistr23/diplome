@@ -45,7 +45,7 @@ if($parts_url[0] === '/user') {
 				$params_email = $data['email'];
 				(new \api\src\controller\CreateController())->Create($params_login, $params_pass, $params_email);
 			} else {
-				echo 'Увы но вы не заполенели не все данные для добавления человека';
+				echo 'Увы но вы заполенели не все данные для добавления человека';
 			}
 
 		} else {
@@ -61,6 +61,18 @@ if($parts_url[0] === '/user') {
 			}
 		} else {
 			echo "id не записан";
+		}
+	} elseif ($_SERVER["REQUEST_METHOD"] === "PUT") {
+		if ($data) {
+			if (isset($data['login']) && isset($data['pass']) && isset($data['email']) && isset($data['id'])) {
+				$params_login = $data['login'];
+				$params_pass = $data['pass'];
+				$params_email = $data['email'];
+				$params_id = $data['id'];
+				(new \api\src\controller\UpDate())->UpDate($params_login, $params_pass, $params_email, $params_id);
+			} else {
+				echo 'Увы но вы заполенели не все данные для обновления человека';
+			}
 		}
 	}
 }
