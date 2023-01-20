@@ -49,7 +49,11 @@ class ReadController
         } else {
             http_response_code(404);
 
-            echo json_encode(array("massage" => 'Я такого не нашёл :з'), JSON_UNESCAPED_UNICODE);
+            $res = [
+                "status" => false,
+                "massage" => 'Я такого не нашёл :з'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
         }
 
         

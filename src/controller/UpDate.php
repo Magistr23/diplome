@@ -33,10 +33,20 @@ class UpDate
             http_response_code(200);
 
             echo json_encode(array("message" => "Человек был обновлён."), JSON_UNESCAPED_UNICODE);
+
+            $res = [
+                "status" => true,
+                "massage" => 'Человек был обновлён.'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
         } else {
             http_response_code(503);
 
-            echo json_encode(array("message" => "Невозможно обновить аккаунт."), JSON_UNESCAPED_UNICODE);
+            $res = [
+                "status" => false,
+                "massage" => 'Невозможно обновить аккаунт.'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
 
         }
     }

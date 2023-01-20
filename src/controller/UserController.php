@@ -31,7 +31,7 @@ class UserController
                     "login" => $login,
                     "password" => $password,
                     "email" => $email,
-                    "role" => $role
+                     "role" => $role
                 ];
 
                 $user_arr["user"][] = $user_item;

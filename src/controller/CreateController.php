@@ -20,12 +20,20 @@ class CreateController
         if ($user->Create($params_login, $params_pass, $params_email)) {
             http_response_code(201);
 
-            echo json_encode(array("massage" => 'Персонаж добавлен :з'), JSON_UNESCAPED_UNICODE);
+            $res = [
+                "status" => true,
+                "massage" => 'Персонаж добавлен :з'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
             
         } else {
             http_response_code(404);
 
-            echo json_encode(array("massage" => 'Не получилось добавить человека :з'), JSON_UNESCAPED_UNICODE);
+            $res = [
+                "status" => false,
+                "massage" => 'Не получилось добавить человека :з'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
         }
     }
 }

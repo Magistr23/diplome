@@ -23,11 +23,19 @@ class DeleteController
         if ($user->Delete($params_id)) {
             http_response_code(204);
 
-            echo json_encode(array("message" => "Человек был удалён."), JSON_UNESCAPED_UNICODE);
+            $res = [
+                "status" => true,
+                "massage" => 'Человек был удалён.'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
         } else {
             http_response_code(503);
 
-            echo json_encode(array("message" => "Не удалось удалить человека."));
+            $res = [
+                "status" => false,
+                "massage" => 'Не удалось удалить человека.'
+            ];
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
         }
     }
 }

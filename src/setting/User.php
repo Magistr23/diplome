@@ -1,6 +1,7 @@
 <?php
 
 namespace api\src\setting;
+session_start();
 
 use PDO;
 use PDOException;
@@ -40,6 +41,40 @@ class User
         $stml->execute();
 
         return $stml;
+    }
+
+    public function aut($emailGet, $passGet)
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email=:email AND password=:password";
+
+        $stml = $this->conn->prepare($query);
+        $this->email = htmlspecialchars(strip_tags($emailGet));
+        $this->password = htmlspecialchars(strip_tags($passGet));
+
+        $stml->bindParam(":email", $this->email);
+        $stml->bindParam(":password", $this->password);
+
+        $stml->execute();
+
+        $user = $stml->fetch(PDO::FETCH_ASSOC);
+        
+        if (!empty($user)) {
+            if ($this->email === $user['email']) {
+                if ($this->password === $user['password']) {
+                    // header('location: type/view/diplom.php');
+                    $_SESSION['user'] = ["email" => $this->email];
+                    $_SESSION['id'] = ["id" => $user['id']];
+                    if ($user['role'] > 0) {
+                        $_SESSION['admin'] = ['email' => $this->email];
+                    }
+                    header("location:index.php");
+                    
+                }
+             }
+        }
+        var_dump($_SESSION['user']);
+        //var_dump($user);
+        return $user['id'];
     }
 
     public function Create($login, $password, $email)
