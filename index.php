@@ -1,7 +1,5 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors',true);
-// header('Content-Type: application/json');
+
 session_start();
 require_once __DIR__ . "/bootstrap.php";
 ?>

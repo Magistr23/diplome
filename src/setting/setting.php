@@ -1,5 +1,9 @@
 <?php
 session_start();
+// error_reporting(E_ALL);
+// ini_set('display_errors',true);
+header('Content-Type: application/json');
+
 
 $urll = $_SERVER["REQUEST_URI"];
 
@@ -85,7 +89,66 @@ if($parts_url[0] === '/admin/user') {
 			break;
 	}
 } elseif ($parts_url[0] === '/admin/users') {
-	(new \api\src\controller\UserController())->User();
-} elseif ($parts_url[0] === '/user') {
-	(new \api\src\controller\UserController())->User();
+	if ($_SERVER["REQUEST_METHOD"] === "GET") {
+		(new \api\src\controller\UserController())->User();
+	}
 } 
+// elseif ($parts_url[0] === '/user') {
+// 	if ($_SERVER["REQUEST_METHOD"] === "GET") {
+// 		(new \api\src\controller\UserController())->User();
+// 	}
+// } 
+
+if ($parts_url[0] === '/file') {
+	switch ($_SERVER["REQUEST_METHOD"]) {
+		case "GET":
+			if ($data) {
+				$params = $data['id'];
+				// $params = array_key_exists('id' , $data);
+				(new \api\src\controller\ReadFileController())->ReadFileOne($params);
+			} else {
+				(new \api\src\controller\FileController())->File();
+			}
+			break;
+		case "POST":
+			if ($data) {
+				if (isset($data['login']) && isset($data['pass']) && isset($data['email'])) {
+					$params_login = $data['login'];
+					$params_pass = $data['pass'];
+					$params_email = $data['email'];
+					(new \api\src\controller\CreateController())->Create($params_login, $params_pass, $params_email);
+				} else {
+					echo 'Увы но вы заполенели не все данные для добавления человека';
+				}
+
+			} else {
+				echo 'Увы но вы не заполенели данные для добавления человека';
+			}
+			break;
+		case "DELETE":
+			if ($data) {
+				if ($data['id'] && is_numeric($data['id'])) {
+					$params_id = $data['id'];
+					(new \api\src\controller\DeleteFileController())->DeleteFile($params_id);
+				} else {
+					echo "id должен быть числовой";
+				}
+			} else {
+				echo "id не записан";
+			}
+			break;
+		case "PUT":
+			if ($data) {
+				if (isset($data['login']) && isset($data['pass']) && isset($data['email']) && isset($data['id'])) {
+					$params_login = $data['login'];
+					$params_pass = $data['pass'];
+					$params_email = $data['email'];
+					$params_id = $data['id'];
+					(new \api\src\controller\UpDate())->UpDate($params_login, $params_pass, $params_email, $params_id);
+				} else {
+					echo 'Увы но вы заполенели не все данные для обновления человека';
+				}
+			}
+			break;
+	}
+}
