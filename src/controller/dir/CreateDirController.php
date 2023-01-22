@@ -1,28 +1,28 @@
 <?php
 
-namespace api\src\controller;
+namespace api\src\controller\dir;
 
 use api\src\setting\Connecting;
-use api\src\setting\User;
+use api\src\setting\File;
 use PDO;
 
 
-class CreateController
+class CreateDirController
 {
     public $dataBase;
-    public function Create($params_login, $params_pass, $params_email)
+    public function CreateDir($name, $params)
     {
         $this->dataBase = new Connecting();
         $db = $this->dataBase->getConnection();
 
-        $user = new User($db);
+        $file = new File($db);
 
-        if ($user->Create($params_login, $params_pass, $params_email)) {
+        if ($file->CreateDir($name, $params)) {
             http_response_code(201);
 
             $res = [
                 "status" => true,
-                "massage" => 'Персонаж добавлен :з'
+                "massage" => 'Папка добавлена :з'
             ];
             echo json_encode($res, JSON_UNESCAPED_UNICODE);
             
@@ -31,7 +31,7 @@ class CreateController
 
             $res = [
                 "status" => false,
-                "massage" => 'Не получилось добавить человека :з'
+                "massage" => 'Не получилось добавить папку :з'
             ];
             echo json_encode($res, JSON_UNESCAPED_UNICODE);
         }

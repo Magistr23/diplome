@@ -2,20 +2,20 @@
 
 namespace api\src\controller;
 
-use api\src\setting\Connecting;
+use api\src\setting\Connecting\dir;
 use api\src\setting\File;
 use PDO;
 
-class ReadFileController 
+class ReadDirController 
 {
-    public function ReadFileOne($params)
+    public function ReadDirOne($params)
     {
         $databasa = new Connecting();
         $db = $databasa->getConnection();
 
         $file = new File($db);
 
-        $stml = $file->ReadFileOne($params);
+        $stml = $file->ReadDirOne($params);
 
         $num = $stml->rowCount();
 

@@ -25,7 +25,29 @@ require_once __DIR__ . "/bootstrap.php";
 	<a href="logout.php">выйти из аккаунта</a>
 	<?php
 	echo '<br>';
-	(new \api\src\controller\ReadController())->Read($params); ?>
+	(new \api\src\controller\user\ReadController())->Read($params);
+
+	echo "<br>";
+
+	(new \api\src\controller\dir\CheakDirController())->Cheak($params); ?>
+
+	<form action="/" method="POST" enctype="multipart/form-data">
+		<label>
+			<input name="file" type="file">
+		</label>
+		<label>
+			<input type="submit" name="file">
+		</label>
+	</form>
+	<form action="/" method="POST">
+		<label>
+			<input name="name" type="text" placeholder="введите название папки">
+		</label>
+		<label>
+			<input type="submit" name="dir">
+		</label>
+	</form>
+
 	<?php else:?>
 	<form action="/" method="GET">
 		<label>
@@ -43,5 +65,9 @@ require_once __DIR__ . "/bootstrap.php";
 </html>
 
 <?php
-
+if ($_POST['dir']) {
+	$params_name = $_POST['name'];
+	
+	(new \api\src\controller\dir\CreateDirController())->CreateDir($params_name, $params);
+}
 require_once __DIR__ . "/src/setting/setting.php";

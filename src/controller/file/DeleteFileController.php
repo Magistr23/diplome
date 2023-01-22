@@ -1,31 +1,31 @@
 <?php
 
-namespace api\src\controller;
+namespace api\src\controller\file;
 
 use api\src\setting\Connecting;
-use api\src\setting\User;
+use api\src\setting\File;
 
 
-class DeleteController
+class DeleteFileController
 {
-    public function Delete($params_id)
+    public function DeleteFile($params_id)
     {
 
         $databasa = new Connecting();
         $db = $databasa->getConnection();
 
-        $user = new User($db);
+        $file = new File($db);
 
         // $data = json_decode(file_get_contents("php://input"));
 
         // $user->id = $data->id;
 
-        if ($user->Delete($params_id)) {
+        if ($file->Delete($params_id)) {
             http_response_code(204);
 
             $res = [
                 "status" => true,
-                "massage" => 'Человек был удалён.'
+                "massage" => 'Файл был удалён.'
             ];
             echo json_encode($res, JSON_UNESCAPED_UNICODE);
         } else {
@@ -33,7 +33,7 @@ class DeleteController
 
             $res = [
                 "status" => false,
-                "massage" => 'Не удалось удалить человека.'
+                "massage" => 'Не удалось удалить файл.'
             ];
             echo json_encode($res, JSON_UNESCAPED_UNICODE);
         }

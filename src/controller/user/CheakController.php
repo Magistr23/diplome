@@ -1,5 +1,5 @@
 <?php
-namespace api\src\controller;
+namespace api\src\controller\user;
 
 use api\src\setting\Connecting;
 use api\src\setting\User;
