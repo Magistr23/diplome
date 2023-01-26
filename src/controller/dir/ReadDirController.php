@@ -1,8 +1,8 @@
 <?php
 
-namespace api\src\controller;
+namespace api\src\controller\dir;
 
-use api\src\setting\Connecting\dir;
+use api\src\setting\Connecting;
 use api\src\setting\File;
 use PDO;
 
@@ -28,7 +28,6 @@ class ReadDirController
                 $file_item = [
                     "id" => $id,
                     "name" => $name,
-                    "directory" => $directory
                 ];
 
                 $file_arr["read_file"][] = $file_item;

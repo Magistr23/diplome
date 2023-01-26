@@ -10,14 +10,14 @@ use PDO;
 class CreateDirController
 {
     public $dataBase;
-    public function CreateDir($name, $params)
+    public function CreateDir($name)
     {
         $this->dataBase = new Connecting();
         $db = $this->dataBase->getConnection();
 
         $file = new File($db);
 
-        if ($file->CreateDir($name, $params)) {
+        if ($file->CreateDir($name)) {
             http_response_code(201);
 
             $res = [

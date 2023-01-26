@@ -115,12 +115,11 @@ if ($parts_url[0] === '/file') {
 			}
 			break;
 		case "POST":
-			if ($_POST['file']) {
-				if (isset($_POST['name']) && $_POST['type'] === "image/jpeg") {
-					$params_login = $_POST['name'];
-					$params_pass = $data['pass'];
-					$params_email = $data['email'];
-					(new \api\src\controller\file\CreateController())->Create($params_login, $params_pass, $params_email);
+			if ($data) {
+				if (isset($data['name'])) {
+					$params_name = $data['name'];
+					$params_dir = $data['dir'];
+					(new \api\src\controller\file\CreateFileController())->Create($params_name, $params_dir);
 				} else {
 					echo 'Увы но вы заполенели не все данные для добавления человека';
 				}
@@ -141,19 +140,17 @@ if ($parts_url[0] === '/file') {
 				echo "id не записан";
 			}
 			break;
-		// case "PUT":
-		// 	if ($data) {
-		// 		if (isset($data['login']) && isset($data['pass']) && isset($data['email']) && isset($data['id'])) {
-		// 			$params_login = $data['login'];
-		// 			$params_pass = $data['pass'];
-		// 			$params_email = $data['email'];
-		// 			$params_id = $data['id'];
-		// 			(new \api\src\controller\UpDate())->UpDate($params_login, $params_pass, $params_email, $params_id);
-		// 		} else {
-		// 			echo 'Увы но вы заполенели не все данные для обновления человека';
-		// 		}
-		// 	}
-		// 	break;
+		case "PUT":
+			if ($data) {
+				if (isset($data['name']) && isset($data['id'])) {
+					$params_name = $data['name'];
+					$params_id = $data['id'];
+					(new \api\src\controller\file\UpfileDate())->UpfileDate($params_name, $params_id);
+				} else {
+					echo 'Увы но вы заполенели не все данные для обновления человека';
+				}
+			}
+			break;
 	}
 } elseif ($parts_url[0] === '/direct') {
 	switch ($_SERVER["REQUEST_METHOD"]) {
@@ -171,34 +168,32 @@ if ($parts_url[0] === '/file') {
 				$params_name = $data['name'];
 				$params_id = $data['id'];
 				// $params = array_key_exists('id' , $data);
-				(new \api\src\controller\dir\CreateDirController())->CreateDir($params_name, $params_id);
+				(new \api\src\controller\dir\CreateDirController())->CreateDir($params_name);
 			}
 			
-		// 	break;
-		// case "DELETE":
-		// 	if ($data) {
-		// 		if ($data['id'] && is_numeric($data['id'])) {
-		// 			$params_id = $data['id'];
-		// 			(new \api\src\controller\DeleteFileController())->DeleteFile($params_id);
-		// 		} else {
-		// 			echo "id должен быть числовой";
-		// 		}
-		// 	} else {
-		// 		echo "id не записан";
-		// 	}
-		// 	break;
-		// case "PUT":
-		// 	if ($data) {
-		// 		if (isset($data['login']) && isset($data['pass']) && isset($data['email']) && isset($data['id'])) {
-		// 			$params_login = $data['login'];
-		// 			$params_pass = $data['pass'];
-		// 			$params_email = $data['email'];
-		// 			$params_id = $data['id'];
-		// 			(new \api\src\controller\UpDate())->UpDate($params_login, $params_pass, $params_email, $params_id);
-		// 		} else {
-		// 			echo 'Увы но вы заполенели не все данные для обновления человека';
-		// 		}
-		// 	}
-		// 	break;
+			break;
+		case "DELETE":
+			if ($data) {
+				if ($data['id'] && is_numeric($data['id'])) {
+					$params_id = $data['id'];
+					(new \api\src\controller\dir\DeleteDirController())->DeleteDir($params_id);
+				} else {
+					echo "id должен быть числовой";
+				}
+			} else {
+				echo "id не записан";
+			}
+			break;
+		case "PUT":
+			if ($data) {
+				if (isset($data['id']) && isset($data['name'])) {
+					$params_id = $data['id'];
+					$params_name = $data['name'];
+					(new \api\src\controller\dir\UpDirDate())->UpDirDate($params_id, $params_name);
+				} else {
+					echo 'Увы но вы заполенели не все данные для обновления человека';
+				}
+			}
+			break;
 	}
 }

@@ -65,19 +65,18 @@ class File
         return false;
     }
 
-    public function Create()
+    public function Create($params_name, $params_dir)
     {
-        $query = "INSERT INTO " . $this->table_name . " SET login=:login, password=:password, email=:email";
+        $query = "INSERT INTO " . $this->table_name . " SET name=:name, dir=:id";
 
         $stml = $this->conn->prepare($query);
 
-        $this->login = htmlspecialchars(strip_tags($login));
-        $this->password = htmlspecialchars(strip_tags($password));
-        $this->email = htmlspecialchars(strip_tags($email));
+        $this->name = htmlspecialchars(strip_tags($params_name));
+        $this->id = htmlspecialchars(strip_tags($params_dir));
 
-        $stml->bindParam(":login", $this->login);
-        $stml->bindParam(":password", $this->password);
-        $stml->bindParam(":email", $this->email);
+        $stml->bindParam(":name", $this->name);
+        $stml->bindParam(":id", $this->id);
+ 
 
         if ($stml->execute()) {
             return true;
@@ -85,17 +84,15 @@ class File
         return false;
     }
 
-    public function CreateDir($name, $params)
+    public function CreateDir($name)
     {
-        $query = "INSERT INTO " . $this->table_name_dir . " SET name=:name, user_id=:user_id";
+        $query = "INSERT INTO " . $this->table_name_dir . " SET name=:name";
 
         $stml = $this->conn->prepare($query);
 
         $this->name = htmlspecialchars(strip_tags($name));
-        $this->id = htmlspecialchars(strip_tags($params));
 
         $stml->bindParam(":name", $this->name);
-        $stml->bindParam(":user_id", $this->id);
 
         if ($stml->execute()) {
             return true;
@@ -103,18 +100,85 @@ class File
         return false;
     }
 
-    public function CheakDir($id)
+    public function CheakDir()
     {
-        $query = "SELECT * FROM " . $this->table_name_dir . " WHERE user_id=:id";
+        $query = "SELECT * FROM " . $this->table_name_dir;
 
         $stml = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($id));
+        $stml->execute();
+
+        return $stml;
+    }
+
+    public function DeleteDir($params_id)
+    {
+        $query = "DELETE FROM " . $this->table_name_dir . " WHERE id=:id";
+
+        $stml = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($params_id));
+
+        $stml->bindParam(":id", $this->id);
+
+        if ($stml->execute()) {
+            
+            return true;
+        }
+        return false;
+    }
+
+    public function UpDate($params_id, $params_name)
+    {
+        $query = "UPDATE " . $this->table_name_dir . " SET name=:name WHERE id=:id";
+
+        $stml = $this->conn->prepare($query);
+
+        $this->name = htmlspecialchars(strip_tags($params_name));
+        $this->id = htmlspecialchars(strip_tags($params_id));
+
+        $stml->bindParam(":name", $this->name);
+        $stml->bindParam(":id", $this->id);
+
+        if ($stml->execute()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function ReadDirOne($params)
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE dir=:id LIMIT 1";
+
+        $stml = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($params));
 
         $stml->bindParam(":id", $this->id);
 
         $stml->execute();
 
         return $stml;
+        
+    }
+
+    public function UpFileDate($params_name, $params_id)
+    {
+        $query = "UPDATE " . $this->table_name . " SET name=:name WHERE id=:id";
+
+        $stml = $this->conn->prepare($query);
+
+        $this->name = htmlspecialchars(strip_tags($params_name));
+        $this->id = htmlspecialchars(strip_tags($params_id));
+
+        $stml->bindParam(":name", $this->name);
+        $stml->bindParam(":id", $this->id);
+
+        if ($stml->execute()) {
+            return true;
+        }
+
+        return false;
     }
 }

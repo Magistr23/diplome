@@ -7,13 +7,13 @@ use PDO;
 
 class CheakDirController 
 {
-    public function Cheak($id) {
+    public function Cheak() {
         $database = new Connecting();
         $db = $database->getConnection();
 
         $file = new file($db);
 
-        $stml = $file->CheakDir($id);
+        $stml = $file->CheakDir();
 
         $num = $stml->rowCount();
 
@@ -39,7 +39,7 @@ class CheakDirController
             http_response_code(404);
 
             $res = [
-                "massage" => 'Создайте папку для файлов :з'
+                "massage" => 'Не удалось вывести папки :з'
             ];
             echo json_encode($res, JSON_UNESCAPED_UNICODE);
         }

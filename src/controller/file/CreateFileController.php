@@ -10,14 +10,14 @@ use PDO;
 class CreateFileController
 {
     public $dataBase;
-    public function Create()
+    public function Create($params_name, $params_dir)
     {
         $this->dataBase = new Connecting();
         $db = $this->dataBase->getConnection();
 
         $file = new File($db);
 
-        if ($file->Create()) {
+        if ($file->Create($params_name, $params_dir)) {
             http_response_code(201);
 
             $res = [
