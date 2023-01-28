@@ -19,9 +19,24 @@ class CLose
         $this->conn = $db;
     }
 
-    public function get()
+    public function get($id_file)
     {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE file_id=:file_id";
 
+        $stml = $this->conn->prepare($query);
+
+        $this->id_file = htmlspecialchars(strip_tags($id_file));
+
+        $stml->bindParam(":file_id", $this->id_file);
+
+        $stml->execute();
+
+        $close = $stml->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($close as $k => $val) {
+            echo json_encode("этот файл запрещён этому id = " . $close[$k]['user_id'], JSON_UNESCAPED_UNICODE);
+        }
+        unset($val);
     }
 
     public function put()
