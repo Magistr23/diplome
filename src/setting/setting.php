@@ -196,4 +196,47 @@ if ($parts_url[0] === '/file') {
 			}
 			break;
 	}
+}  elseif ($parts_url[0] === '/files/share') {
+	switch ($_SERVER["REQUEST_METHOD"]) {
+		case "GET":
+			if ($data['id'] || $data['user_id']) {
+				$params_id = $data['id'];
+				$params_user_id = $data['user_id'];
+				// $params = array_key_exists('id' , $data);
+				(new \api\src\controller\close\DeleteController())->DELETE($params_id, $params_user_id);
+			}
+			break;
+		case "POST":
+			if ($data) {
+				$params_name = $data['name'];
+				$params_id = $data['id'];
+				// $params = array_key_exists('id' , $data);
+				(new \api\src\controller\dir\CreateDirController())->CreateDir($params_name);
+			}
+			
+			break;
+		case "DELETE":
+			if ($data) {
+				if ($data['id'] && is_numeric($data['id'])) {
+					$params_id = $data['id'];
+					(new \api\src\controller\dir\DeleteDirController())->DeleteDir($params_id);
+				} else {
+					echo "id должен быть числовой";
+				}
+			} else {
+				echo "id не записан";
+			}
+			break;
+		case "PUT":
+			if ($data) {
+				if (isset($data['id']) && isset($data['name'])) {
+					$params_id = $data['id'];
+					$params_name = $data['name'];
+					(new \api\src\controller\dir\UpDirDate())->UpDirDate($params_id, $params_name);
+				} else {
+					echo 'Увы но вы заполенели не все данные для обновления человека';
+				}
+			}
+			break;
+	}
 }
